@@ -1,37 +1,50 @@
-## Welcome to GitHub Pages
+/// ==UserScript==
+// @name         Krunker.io HACKS 2019 - AIMBOT, ESP, BHOP, AUTO RELOAD AND MORE | WORKING 2 JUNE |
+// @version      1.5
+// @author       mr.freshcoder
+// @include       /^(https?:\/\/)?(www\.)?(.+)krunker\.io(|\/|\/\?(game|server|party)=.+)$/
+// @include      https://krunker.io
+// @grant        GM_xmlhttpRequest
+// @run-at       document-start
+// @require      https://code.jquery.com/jquery-3.3.1.min.js
+// @namespace    mr.freshcoder
+// @description  Krunker.io HACKS 2019 - AIMBOT, ESP, BHOP, AUTO RELOAD AND MORE | WORKING 1 JUNE | Best Krunker.io HACKS 2019 |
+// ==/UserScript==
 
-You can use the [editor on GitHub](https://github.com/mrfreshcoder/Krunker.io-HACKS-2019--AIMBOT-ESP-BHOP-AUTO-RELOAD-AND-MORE-WORKING-2-JUNE/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+window.stop();
+document.innerHTML = "";
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+// * * * * * * * * * * * * * * * *
+// * * * * * * * * * * * * * * * *
 
-### Markdown
+const version = '1.2'
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+// * * * * * * * * * * * * * * * *
+// * * * * * * * * * * * * * * * *
 
-```markdown
-Syntax highlighted code block
+GM_xmlhttpRequest({
+    method: "GET",
+    url: document.location.origin,
+    onload: res => {
+        let html = res.responseText;
+        html = html.replace(/game\.[^\.]+\.js/, '____.js');
+        html = html.replace(/<script data-cfasync(.|\s)*?<\/script>/, `<meta name="gpy_version" content="${version}">`);
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: document.location.origin + '/libs/zip.js',
+            onload: res => {
+                let zip = res.responseText;
+                zip = zip.replace(/document\..+<\/div>"\)/, '');
 
-# Header 1
-## Header 2
-### Header 3
+                html = html.replace(/<script src="libs\/zip\.js.+"><\/script>/, `<script>${zip}</script>`);
+                html += '<script src="https://raw.githack.com/gpy-dev/krunker/master/bypass.js"></script>';
+                html += '<script src="https://raw.githack.com/gpy-dev/krunker/master/haxy.js"></script>';
+                html += '<script src="https://raw.githack.com/gpy-dev/krunker/master/game.js"></script>';
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/mrfreshcoder/Krunker.io-HACKS-2019--AIMBOT-ESP-BHOP-AUTO-RELOAD-AND-MORE-WORKING-2-JUNE/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+                document.open();
+                document.write(html);
+                document.close();
+            }
+        })
+    }
+})
